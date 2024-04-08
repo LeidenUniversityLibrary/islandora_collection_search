@@ -151,7 +151,7 @@ function islandora_collection_search_get_collection_pid() {
     variable_get('islandora_solr_member_of_field', 'RELS_EXT_isMemberOf_uri_ms'),
   );
   // Find rels ext in parameters.
-  if (isset($params['f'])) {
+  if (isset($params['f']) && is_array($params['f'])) {
     foreach ($params['f'] as $filter) {
       $filter_arr = explode(':', $filter);
       foreach ($rels_ext as $rels) {
@@ -163,7 +163,7 @@ function islandora_collection_search_get_collection_pid() {
     }
   }
   $hidden_match = array();
-  if (preg_match('@.*:"(?:info\\\:fedora\\\/)?(.*)"@', $hidden_filter, $hidden_match)) {
+  if (isset($hidden_filter) && preg_match('@.*:"(?:info\\\:fedora\\\/)?(.*)"@', $hidden_filter, $hidden_match)) {
     $pid = str_replace('\\', '', $hidden_match[1]);
     return $pid;
   }
